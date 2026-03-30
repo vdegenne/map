@@ -1,0 +1,36 @@
+{
+	"name": "@vdegenne/map",
+	"version": "0.1.1",
+	"description": "",
+	"type": "module",
+	"exports": {
+		"./utils.js": {
+			"import": "./lib/utils.js",
+			"types": "./lib/utils.d.ts"
+		}
+	},
+	"files": [
+		"./lib/"
+	],
+	"scripts": {
+		"build": "wireit"
+	},
+	"devDependencies": {
+		"maplibre-gl": "^5.21.1",
+		"typescript": "^6.0.2",
+		"wireit": "^0.14.12"
+	},
+	"wireit": {
+		"build": {
+			"command": "tsc --pretty",
+			"clean": "if-file-deleted",
+			"files": [
+				"./tsconfig.json",
+				"./src"
+			],
+			"output": [
+				"./lib"
+			]
+		}
+	}
+}
