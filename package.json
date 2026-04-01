@@ -4,13 +4,21 @@
 	"description": "",
 	"type": "module",
 	"exports": {
+		".": {
+			"import": "./lib/index.js",
+			"types": "./lib/index.d.ts"
+		},
 		"./utils.js": {
 			"import": "./lib/utils.js",
 			"types": "./lib/utils.d.ts"
 		},
-		"./geocoding.js": {
-			"import": "./lib/geocoding.js",
-			"types": "./lib/geocoding.d.ts"
+		"./geocoding/nominatim": {
+			"import": "./lib/geocoding/nominatim/nominatim.js",
+			"types": "./lib/geocoding/nominatim/nominatim.d.ts"
+		},
+		"./geocoding/overpass": {
+			"import": "./lib/geocoding/overpass/overpass.js",
+			"types": "./lib/geocoding/overpass/overpass.d.ts"
 		}
 	},
 	"files": [
