@@ -1,4 +1,5 @@
-import {OverpassElement, OverpassResponse} from './types.js'
+import {makeRadiusQueryLine} from './query.js'
+import {OverpassElement, OverpassResponse, PlaceFilterValue} from './types.js'
 
 export * from './types.js'
 
@@ -33,26 +34,50 @@ out center;
 	return data.elements as OverpassElement[]
 }
 
-export async function getCitiesAround(
+export async function getPlacesAroundRadius(
 	center: {lat: number; lng: number},
 	radiusMeters: number,
+	placeTypes: PlaceFilterValue[] = ['city'],
+	otherFilters?: string,
 ): Promise<OverpassElement[]> {
+	if (placeTypes.length === 0) {
+		console.warn(
+			'You are calling `getPlacesAroundRadius` without specifying place types.',
+		)
+		return []
+	}
+
+	const queryLines = placeTypes.map((placeFilter) =>
+		makeRadiusQueryLine(
+			'node',
+			'place',
+			placeFilter,
+			center,
+			radiusMeters,
+			otherFilters,
+		),
+	)
+
 	const query = `
 [out:json][timeout:25];
 (
-  node["place"="city"](around:${radiusMeters},${center.lat},${center.lng});
-  node["place"="town"](around:${radiusMeters},${center.lat},${center.lng});
+${queryLines.join('')}
 );
 out body;
 `
 
 	const url = 'https://overpass-api.de/api/interpreter'
 
+	console.log(`Query: ${query}`)
 	const response = await fetch(url, {
 		method: 'POST',
 		body: query,
 		headers: {'Content-Type': 'text/plain'},
 	})
+
+	if (!response.ok) {
+		throw new Error(`Overpass request failed: ${response.statusText}`)
+	}
 
 	const data: OverpassResponse = await response.json()
 
