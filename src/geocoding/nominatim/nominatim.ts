@@ -7,15 +7,19 @@ export * from './types.js'
  */
 export async function geocode(
 	query: string,
-	lang = 'fr',
+	lang?: string | null,
 ): Promise<NominatimResult[]> {
 	const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
 
-	const response = await fetch(url, {
-		headers: {
-			'Accept-Language': lang, // optionnel
-		},
-	})
+	const options: RequestInit = {}
+
+	if (lang) {
+		options.headers = {
+			'Accept-Language': lang,
+		}
+	}
+
+	const response = await fetch(url, options)
 
 	const data: any[] = await response.json()
 	return data
