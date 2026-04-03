@@ -7,7 +7,7 @@ export * from './types.js'
  */
 export async function geocode(
 	query: string,
-	lang?: string | null,
+	lang?: string,
 ): Promise<NominatimResult[]> {
 	const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
 
