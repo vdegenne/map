@@ -13,12 +13,26 @@ export type OverpassTheme =
 	| 'railway'
 
 export type PlaceFilterValue =
+	| 'country'
+	| 'state'
+	| 'region'
+	| 'province'
+	| 'district'
+	| 'county'
+	| 'municipality'
 	| 'city'
+	| 'borough'
+	| 'suburb'
+	| 'quarter'
+	| 'neighbourhood'
+	| 'city_block'
+	| 'plot'
 	| 'town'
 	| 'village'
 	| 'hamlet'
-	| 'suburb'
-	| 'locality'
+	| 'isolated_dwelling'
+	| 'farm'
+	| 'allotments'
 export type HistoricFilterValue =
 	| 'castle'
 	| 'monument'
@@ -33,8 +47,10 @@ export type TourismFilterValue =
 	| 'gallery'
 	| 'zoo'
 
+export type OverpassElementType = 'node' | 'way' | 'relation' | 'area'
+
 export interface OverpassElement {
-	type: 'node' | 'way' | 'relation'
+	type: OverpassElementType
 
 	/** Identifiant unique de l’élément OSM */
 	id: number

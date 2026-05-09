@@ -19,7 +19,15 @@ export interface NominatimResult {
 		village?: string
 		town?: string
 		city?: string
+		city_district?: string
+		municipality?: string
+		/**
+		 * In french this is "departement"
+		 */
 		county?: string
+		/**
+		 * In french this is "region"
+		 */
 		state?: string
 		postcode?: string
 		country?: string

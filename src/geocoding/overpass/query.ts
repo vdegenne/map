@@ -18,26 +18,24 @@ export function makeQueryLine(options: MakeQueryLineOptions): string {
 		center,
 		radiusMeters,
 		bbox,
-		otherFilters = {},
+		otherFilters,
 	} = options
 
 	let filters = themeFilter ? `["${theme}"="${themeFilter}"]` : `["${theme}"]`
+
 	if (otherFilters) {
 		filters += otherFilters
 	}
-	// for (const [k, v] of Object.entries(otherFilters)) {
-	// 	filters += `["${k}"="${v}"]`
-	// }
 
 	if (center && radiusMeters != null) {
 		return `${type}${filters}(around:${radiusMeters},${center.lat},${center.lng});`
 	} else if (bbox) {
 		return `${type}${filters}(${bbox.minLat},${bbox.minLng},${bbox.maxLat},${bbox.maxLng});`
-	} else {
-		throw new Error(
-			'Overpass query must include either a radius or a bounding box',
-		)
 	}
+
+	throw new Error(
+		'Overpass query must include either a radius or a bounding box',
+	)
 }
 
 // Wrapper for radius queries
