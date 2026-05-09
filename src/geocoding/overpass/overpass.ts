@@ -39,7 +39,7 @@ out center;
 	const data: OverpassResponse = await response.json()
 	return data.elements as OverpassElement[]
 }
-export async function getBboxTouristSpots(
+export async function getTouristSpotsFromBbox(
 	minLat: number,
 	minLng: number,
 	maxLat: number,
